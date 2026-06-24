@@ -1,0 +1,9 @@
+Method,%RMSE,R²,Source
+DINO + NNLS (Top 90),21.81,0.939,Proposed (DINO)
+DINO + Ridge Regression (Top 130),24.6,0.923,Proposed (DINO)
+Gradient Boosting,31.46,0.874,Literature
+Random Forest,35.65,0.838,Literature
+Stacking Ensemble,48.07,0.705,Literature
+DINO + XGBoost (Top 40),49.64,0.685,Proposed (DINO)
+XGBoost,49.85,0.683,Literature
+Stepwise Regression,51.65,0.659,Literature

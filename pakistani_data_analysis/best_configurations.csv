@@ -1,0 +1,4 @@
+method,n_features,percent_rmse,r2,hyperparams
+Linear Regression,120,24.186383285308136,0.9252931871669864,"{'scale': True, 'alpha': 0.01}"
+XGBoost,20,44.19468103520168,0.750564447346739,"{'n_estimators': 100, 'learning_rate': 0.05, 'max_depth': 2, 'reg_lambda': 1.0, 'min_child_weight': 3.0, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_alpha': 0.1}"
+NNLS,250,19.852427296041984,0.9496678392041391,"{'neighbor_k': 3, 'cosine': True, 'simplex': False}"

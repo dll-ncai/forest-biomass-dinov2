@@ -1,0 +1,39 @@
+[
+  {
+    "method": "Linear Regression",
+    "n_features": 120,
+    "percent_rmse": 24.186383285308136,
+    "r2": 0.9252931871669864,
+    "hyperparams": {
+      "scale": true,
+      "alpha": 0.01
+    }
+  },
+  {
+    "method": "XGBoost",
+    "n_features": 20,
+    "percent_rmse": 44.19468103520168,
+    "r2": 0.750564447346739,
+    "hyperparams": {
+      "n_estimators": 100,
+      "learning_rate": 0.05,
+      "max_depth": 2,
+      "reg_lambda": 1.0,
+      "min_child_weight": 3.0,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "reg_alpha": 0.1
+    }
+  },
+  {
+    "method": "NNLS",
+    "n_features": 250,
+    "percent_rmse": 19.852427296041984,
+    "r2": 0.9496678392041391,
+    "hyperparams": {
+      "neighbor_k": 3,
+      "cosine": true,
+      "simplex": false
+    }
+  }
+]

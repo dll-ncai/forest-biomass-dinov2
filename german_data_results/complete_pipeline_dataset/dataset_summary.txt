@@ -1,0 +1,22 @@
+============================================================
+COMPLETE PIPELINE DATASET SUMMARY
+============================================================
+
+Total clusters: 101
+Total plots: 303
+Mean plots per cluster: 3.00
+Train samples: 71
+Test samples: 30
+
+Biomass Statistics:
+  Range: 100.88 - 302.01 ton/ha
+  Mean: 196.01 ton/ha
+  Std: 43.44 ton/ha
+
+DINO Features:
+  Original dimension: 384
+
+PCA Features:
+  Reduced dimension: 50
+  Explained variance: 98.11%
+  Variance threshold: 98.0%

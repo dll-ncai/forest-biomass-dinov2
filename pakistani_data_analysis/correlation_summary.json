@@ -1,0 +1,95 @@
+{
+  "total_features": 384,
+  "features_with_sig_correlation_001": 59,
+  "features_with_sig_correlation_01": 116,
+  "features_with_sig_correlation_05": 170,
+  "top_10_features": [
+    {
+      "feature_idx": 14,
+      "feature_name": "feature_14",
+      "pearson_r": 0.8646634817123413,
+      "pearson_p": 2.4945660481146823e-08,
+      "spearman_r": 0.8113778150308293,
+      "spearman_p": 8.608593552279553e-07
+    },
+    {
+      "feature_idx": 369,
+      "feature_name": "feature_369",
+      "pearson_r": 0.8618624210357666,
+      "pearson_p": 3.112197523859688e-08,
+      "spearman_r": 0.8430104783848578,
+      "spearman_p": 1.2296453687589255e-07
+    },
+    {
+      "feature_idx": 44,
+      "feature_name": "feature_44",
+      "pearson_r": 0.8459001779556274,
+      "pearson_p": 1.0080589731330014e-07,
+      "spearman_r": 0.8525002773910662,
+      "spearman_p": 6.304649735705967e-08
+    },
+    {
+      "feature_idx": 125,
+      "feature_name": "feature_125",
+      "pearson_r": -0.8399441242218018,
+      "pearson_p": 1.5117862394822584e-07,
+      "spearman_r": -0.8343114959624998,
+      "spearman_p": 2.1853869507204171e-07
+    },
+    {
+      "feature_idx": 87,
+      "feature_name": "feature_87",
+      "pearson_r": -0.828965425491333,
+      "pearson_p": 3.0622892497704755e-07,
+      "spearman_r": -0.7836992345960544,
+      "spearman_p": 3.59110726329738e-06
+    },
+    {
+      "feature_idx": 283,
+      "feature_name": "feature_283",
+      "pearson_r": -0.8254396319389343,
+      "pearson_p": 3.8016311610049724e-07,
+      "spearman_r": -0.787653317515308,
+      "spearman_p": 2.966284355926156e-06
+    },
+    {
+      "feature_idx": 105,
+      "feature_name": "feature_105",
+      "pearson_r": -0.8223910331726074,
+      "pearson_p": 4.5658907487679934e-07,
+      "spearman_r": -0.8477553778879618,
+      "spearman_p": 8.854390789044124e-08
+    },
+    {
+      "feature_idx": 60,
+      "feature_name": "feature_60",
+      "pearson_r": 0.8207728266716003,
+      "pearson_p": 5.025147767265417e-07,
+      "spearman_r": 0.8050512823600235,
+      "spearman_p": 1.2168704876717187e-06
+    },
+    {
+      "feature_idx": 50,
+      "feature_name": "feature_50",
+      "pearson_r": 0.8187646865844727,
+      "pearson_p": 5.652399761132074e-07,
+      "spearman_r": 0.7394135059004145,
+      "spearman_p": 2.4105013170874297e-05
+    },
+    {
+      "feature_idx": 341,
+      "feature_name": "feature_341",
+      "pearson_r": -0.8152185678482056,
+      "pearson_p": 6.933320998147287e-07,
+      "spearman_r": -0.7852808677637558,
+      "spearman_p": 3.3283416133657883e-06
+    }
+  ],
+  "pearson_correlation_stats": {
+    "mean": -0.011390179609103749,
+    "std": 0.42822254187070496,
+    "min": -0.8399441242218018,
+    "max": 0.8646634817123413,
+    "median": -0.024793311953544617
+  }
+}

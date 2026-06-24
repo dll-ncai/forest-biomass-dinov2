@@ -1,0 +1,12 @@
+# Core scientific stack used across the analysis pipeline
+numpy
+pandas
+scipy
+scikit-learn
+xgboost
+matplotlib
+seaborn
+umap-learn
+scikit-image
+Pillow
+joblib
