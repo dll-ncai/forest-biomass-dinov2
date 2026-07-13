@@ -1,8 +1,12 @@
-# Large geospatial rasters — regenerable outputs, excluded from version control
+# Large geospatial rasters — fetched via download_data.py, excluded from version control
 *.tif
 *.tif.aux.xml
 *.tif.ovr
+*.tif.ovr.aux.xml
 biomass_rasters/
+
+# Data bundle downloaded by download_data.py (extracted in place, then removed)
+forest-biomass-dinov2-data.zip
 
 # Python
 __pycache__/

@@ -82,9 +82,23 @@ feature extraction.
 
 ## Data availability
 
-The large **GeoTIFF biomass maps and source rasters are not tracked in git** (each is
-well above GitHub's 100 MB limit; together ~6 GB). These are *generated outputs* — the
-predicted-biomass map rasters and the raw aerial/mask imagery used to build the datasets.
-The rendered versions of the biomass maps are included as figures in
-`paper_writeup/` (e.g. `fig4_biomass_raster_maps.png`). The committed feature CSVs are
-sufficient to reproduce every metric and figure reported in the paper.
+**The committed feature CSVs and result JSONs are sufficient to reproduce every metric
+and every figure reported in the paper** — the analysis and figure-from-CSV scripts run
+directly from what is in this repo, with no download required.
+
+The two large **aerial RGB source GeoTIFFs are not tracked in git** (each is above
+GitHub's 100 MB limit). They are only needed to rebuild the German dataset from scratch
+or to regenerate the aerial panels of Figure 4, and are hosted on Google Drive:
+
+```bash
+pip install gdown
+python download_data.py        # fetches + extracts the rasters in place
+python download_data.py --verify   # check sizes / sha256 of existing files
+```
+
+This downloads a single ~1.1 GB archive and extracts the rasters to the exact paths the
+scripts expect (`High_resoltuion_Aerial_Photograph.tif` at the repo root and
+`german data/karlsruhe.tif`). See [`data_manifest.json`](data_manifest.json) for the file
+list and checksums. The predicted-biomass output rasters are *not* distributed
+(regenerable outputs); the rendered biomass maps are already committed as figures in
+`paper_writeup/` (e.g. `fig4_biomass_raster_maps.png`).

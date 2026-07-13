@@ -1,0 +1,18 @@
+{
+  "description": "Large source GeoTIFF rasters not tracked in git. Downloaded by download_data.py from a single Google Drive zip and extracted in place at the repo root.",
+  "archive_name": "forest-biomass-dinov2-data.zip",
+  "archive_size_human": "~1.1 GB",
+  "drive_file_id": null,
+  "files": {
+    "High_resoltuion_Aerial_Photograph.tif": {
+      "size": 311316518,
+      "sha256": "e6c3fb4f07db53c8eb50256fedc1280e0435fc1033c9a74628fa00a43d23e128",
+      "note": "Balakot (Pakistan) high-resolution aerial RGB source raster."
+    },
+    "german data/karlsruhe.tif": {
+      "size": 1336872676,
+      "sha256": "f9c034f6bce5b022cb335bdfe5345cfedbe0a344164fa4e00430b656acb9801f",
+      "note": "Karlsruhe (Germany) aerial RGB source raster; input to build_complete_pipeline.py."
+    }
+  }
+}
