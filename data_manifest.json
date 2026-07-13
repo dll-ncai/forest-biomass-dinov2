@@ -2,7 +2,7 @@
   "description": "Large source GeoTIFF rasters not tracked in git. Downloaded by download_data.py from a single Google Drive zip and extracted in place at the repo root.",
   "archive_name": "forest-biomass-dinov2-data.zip",
   "archive_size_human": "~1.1 GB",
-  "drive_file_id": null,
+  "drive_file_id": "1tX6QxM8kFBFJVuN4f9V7fb11hWXur4X0",
   "files": {
     "High_resoltuion_Aerial_Photograph.tif": {
       "size": 311316518,

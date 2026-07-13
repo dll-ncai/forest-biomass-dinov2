@@ -36,7 +36,7 @@ import zipfile
 # with the link"). Paste ONLY the id portion of the share URL here, e.g. for
 #   https://drive.google.com/file/d/1AbC.../view?usp=sharing
 # the id is  1AbC...
-DRIVE_FILE_ID = "PASTE_DRIVE_FILE_ID_HERE"
+DRIVE_FILE_ID = "1tX6QxM8kFBFJVuN4f9V7fb11hWXur4X0"
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 MANIFEST = os.path.join(ROOT, "data_manifest.json")
