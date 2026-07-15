@@ -20,3 +20,9 @@ venv/
 .DS_Store
 *.bak
 *.swp
+
+# Local backups / scratch reference — regenerable, not for version control
+_original_backup_20260714/
+results_corrected_v1_backup/
+_drive_reference/
+dataset_crops_152/

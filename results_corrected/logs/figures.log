@@ -1,0 +1,7 @@
+Generating corrected-results figures -> figures_corrected/
+  wrote fig_corrected_performance (png/svg/pdf)
+  wrote fig_corrected_scatter (png/svg/pdf)
+  wrote fig_corrected_ablation_german (png/svg/pdf)
+  wrote fig_corrected_perf_vs_features (png/svg/pdf)
+  wrote fig_corrected_robustness_german (png/svg/pdf)
+FIGURES_DONE

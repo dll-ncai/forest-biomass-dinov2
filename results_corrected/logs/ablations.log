@@ -1,0 +1,15 @@
+=== german / dino ablations ===
+  all-features nnls  : %RMSE=17.90 R2=0.83
+  all-features ridge : %RMSE=20.38 R2=0.78
+  all-features xgb   : %RMSE=24.71 R2=0.67
+  no-cluster  nnls  : %RMSE=20.45 R2=0.78 K=50
+  no-cluster  ridge : %RMSE=21.00 R2=0.76 K=30
+  no-cluster  xgb   : %RMSE=21.20 R2=0.76 K=10
+=== german / resnet50 ablations ===
+  all-features nnls  : %RMSE=29.35 R2=0.54
+  all-features ridge : %RMSE=28.26 R2=0.57
+  all-features xgb   : %RMSE=30.60 R2=0.50
+  no-cluster  nnls  : %RMSE=24.79 R2=0.67 K=360
+  no-cluster  ridge : %RMSE=27.08 R2=0.61 K=100
+  no-cluster  xgb   : %RMSE=21.89 R2=0.74 K=360
+ABLATIONS_DONE

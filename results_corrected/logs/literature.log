@@ -1,0 +1,11 @@
+=== corrected literature baselines: Germany (85/15) ===
+  GER rf   : %RMSE=23.70 R2=0.70
+  GER gbt  : %RMSE=23.99 R2=0.69
+  GER xgb  : %RMSE=25.55 R2=0.65
+  GER ridge: %RMSE=22.79 R2=0.72
+=== corrected literature baselines: Pakistan (nested LOO) ===
+  PAK rf   : %RMSE=31.12 R2=0.88
+  PAK gbt  : %RMSE=31.91 R2=0.87
+  PAK xgb  : %RMSE=49.54 R2=0.69
+  PAK ridge: %RMSE=47.10 R2=0.72
+LITERATURE_DONE

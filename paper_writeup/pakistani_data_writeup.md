@@ -1,5 +1,13 @@
 # Pakistani Study Area: Materials and Methods, Results, and Discussion
 
+> **⚠️ Leak-free revision.** The authoritative, corrected results are in
+> `methodology_and_results.md` and `../RESULTS_CORRECTED.md`. The tables and claims in
+> this document have been updated to the corrected, leakage-free numbers (feature-count,
+> ranking, and hyper-parameters selected on training data only; NNLS regularized with L2
+> + convex weights + ensemble-over-K on this n=25 site). Headline: **DINOv2 + NNLS =
+> 29.93 %RMSE, R² 0.886**, a *narrow* win over a fairly-tuned GLCM Random Forest
+> (31.12 %, 0.876) — not the wide margin reported in the original (leaky) draft.
+
 ---
 
 ## 1. Materials and Methods
@@ -130,15 +138,15 @@ The close agreement between Pearson and Spearman correlations for the top featur
 
 Table 3 presents the best Nested LOO performance for each of the three regression models, comparing the optimal subset of top-ranked features against a baseline utilizing the full 384-dimensional DINO feature embedding.
 
-**Table 3.** Best model performance vs All-Features Baseline on the Pakistani dataset (Nested LOO, n = 25).
+**Table 3.** Best model performance on the Pakistani dataset (leak-free nested LOO, n = 25, t/ha).
 
-| Method | Best Top K | Best K %RMSE | Best K R² | All Features (384) %RMSE | All Features (384) R² |
-|--------|------------|--------------|-----------|-------------------------|----------------------|
-| **NNLS** | **90** | **21.81** | **0.939** | 30.04 | 0.885 |
-| Ridge Regression | 130 | 24.60 | 0.923 | 31.91 | 0.870 |
-| XGBoost | 40 | 49.64 | 0.685 | 50.10 | 0.679 |
+| Method | Feature count | %RMSE | R² | RMSE | MAE |
+|--------|---------------|-------|-----|------|-----|
+| **NNLS** | **ensemble-over-K** | **29.93** | **0.886** | **3.87** | **2.86** |
+| Ridge Regression | 160 | 31.73 | 0.871 | 4.11 | 3.31 |
+| XGBoost | 40 | 53.46 | 0.635 | 6.92 | 5.05 |
 
-The proposed lightweight NNLS methodology, paired with a subset of the top 90 features, achieved the best overall performance with **%RMSE = 21.81% and an R² of 0.939**, explaining nearly 94% of the biomass variance. Ridge Regression was highly competitive at %RMSE = 24.60% using 130 features. Notably, both NNLS and Ridge suffered substantial performance degradation when forced to utilize all 384 features, underscoring the necessity of our feature selection step. XGBoost substantially underperformed both other methods, hovering between 48–49% RMSE regardless of the feature count.
+The regularized NNLS predictor achieved the best overall performance at **%RMSE = 29.93% and R² = 0.886**, explaining ~89% of the biomass variance. Ridge Regression was close behind at 31.73% (R² = 0.871). XGBoost underperformed badly (53.46%, R² = 0.635), reflecting the well-known unsuitability of tree ensembles at n = 25. Note that on this tiny dataset NNLS must be regularized (L2 reconstruction + convex weights) and, crucially, must **average predictions over the feature-count grid rather than selecting a single count** — a single-count selection overfits the inner cross-validation and degrades NNLS to ~48–50% %RMSE (see `methodology_and_results.md`, §3.1).
 
 ### 2.3 Effect of Feature Count on Performance
 
@@ -164,18 +172,17 @@ The following models were evaluated under the same Nested LOO protocol ($n=25$) 
 4. **Stacking Ensemble** — RF + GBT + XGBoost base learners, Ridge meta-learner
 5. **Stepwise Multiple Linear Regression** — forward selection with *p* < 0.05
 
-**Table 5.** Literature method performance vs proposed DINO-based methods (Nested LOO, $n=25$).
+**Table 5.** Literature method performance vs proposed DINO-based methods (leak-free nested LOO, $n=25$). Literature models are evaluated under the *identical* nested-LOO protocol as the DINO models.
 
 | Method | Features | %RMSE | R² | Source |
 |--------|----------|-------|----|--------|
-| **DINO + NNLS (Top 90)** | **DINO CLS token** | **21.81** | **0.939** | **Proposed** |
-| DINO + Ridge (Top 130) | DINO CLS token | 24.60 | 0.923 | Proposed |
-| Gradient Boosting | GLCM + VI + RGB | 31.46 | 0.874 | Literature |
-| Random Forest | GLCM + VI + RGB | 35.65 | 0.838 | Literature |
-| Stacking Ensemble | GLCM + VI + RGB | 48.07 | 0.705 | Literature |
-| DINO + XGBoost (Top 40) | DINO CLS token | 49.64 | 0.685 | Proposed |
-| XGBoost (GLCM) | GLCM + VI + RGB | 49.85 | 0.683 | Literature |
-| Stepwise Regression | GLCM + VI + RGB | 51.65 | 0.659 | Literature |
+| **DINO + NNLS (ensemble-K)** | **DINO CLS token** | **29.93** | **0.886** | **Proposed** |
+| Random Forest | GLCM + VI + RGB | 31.12 | 0.876 | Literature |
+| DINO + Ridge (Top 160) | DINO CLS token | 31.73 | 0.871 | Proposed |
+| Gradient Boosting | GLCM + VI + RGB | 31.91 | 0.870 | Literature |
+| Ridge (GLCM) | GLCM + VI + RGB | 47.10 | 0.717 | Literature |
+| XGBoost (GLCM) | GLCM + VI + RGB | 49.54 | 0.687 | Literature |
+| DINO + XGBoost (Top 40) | DINO CLS token | 53.46 | 0.635 | Proposed |
 
 > **[FIGURE 9 — Literature comparison]** *Horizontal bar chart comparing %RMSE and R² across all proposed and literature methods. Green bars = proposed (DINO), red bars = literature.*
 ![Literature Methods Comparison](/Users/assadabid/Documents/biomass/pakistani_data_analysis/paper_methods_nested_loo_comparison.png)
@@ -183,7 +190,7 @@ The following models were evaluated under the same Nested LOO protocol ($n=25$) 
 > **[FIGURE 10 — Literature scatter plots]** *Predicted vs Actual scatter plots for all 5 literature methods.*
 ![Literature Methods Scatter Plots](/Users/assadabid/Documents/biomass/pakistani_data_analysis/paper_methods_nested_loo_scatter.png)
 
-Our DINO + NNLS pipeline achieves a **%RMSE that is 31% lower** (21.81% vs 31.46%) and an **R² that is 7.4% higher** (0.939 vs 0.874) than the best-performing literature method (Gradient Boosting). While GBT and RF with hand-crafted features produced reasonable R² values (0.874 and 0.838), their %RMSE remains substantially worse. Notably, the more complex methods (Stacking, DINO+XGBoost, XGBoost-GLCM, Stepwise) all performed poorly with %RMSE > 48%, exhibiting the overfitting behavior typical of high-capacity models on small datasets. These results conclusively demonstrate the superiority of self-supervised deep features over hand-crafted GLCM/vegetation index representations for small-sample biomass estimation.
+Under the identical leak-free nested-LOO protocol, DINO + NNLS (29.93%, R² 0.886) is the best method, but only **narrowly** ahead of a tuned GLCM Random Forest (31.12%, R² 0.876) and Gradient Boosting (31.91%, 0.870). On this tiny site the hand-crafted-feature baselines are genuinely competitive, and the honest conclusion is that DINO features provide a *modest* improvement rather than a decisive one. (This corrects the original draft, which — using a flawed literature evaluation — reported the GLCM methods as far worse; that gap was an artifact of the evaluation, not a real effect.) The larger, clearer DINO advantage is seen on the German site (§ German writeup and `methodology_and_results.md`).
 
 ### 2.5 UMAP Visualization of the Feature Space
 
@@ -206,15 +213,13 @@ The NNLS model produced spatially coherent biomass maps with a clear gradient fr
 
 ### 3.1 A Novel Framework for Small-Data Biomass Estimation
 
-The central finding of this study is the remarkable efficacy of our proposed lightweight framework: combining a **Frozen Self-Supervised Vision Transformer (DINOv2)** with **Correlation-Based Feature Ranking** and a non-parametric **Non-Negative Least Squares (NNLS)** regression head. Without utilizing domain-specific remote sensing pretraining, multispectral indices, explicit canopy height models, or LiDAR returns, this pipeline explained **up to 93.9% of the variance** in above-ground biomass (%RMSE = 21.81%) on the resource-constrained Pakistani dataset ($n=25$). 
+The central finding of this study is the efficacy of a lightweight framework: a **Frozen Self-Supervised Vision Transformer (DINOv2)** feature extractor with a regularized non-parametric **Non-Negative Least Squares (NNLS)** regression head. Without domain-specific remote-sensing pretraining, multispectral indices, canopy height models, or LiDAR, this pipeline explained **~89% of the variance** in above-ground biomass (%RMSE = 29.93%, R² = 0.886) on the resource-constrained Pakistani dataset ($n=25$) under a strict leak-free nested-LOO protocol. 
 
 This result underscores the unique capacity of self-supervised Vision Transformers. DINO's pretraining objective encourages the model to extract highly generalized, dense semantic structures—capturing canopy texture, crown hierarchies, and spatial shadowing—which act as powerful proxies for biophysical characteristics like biomass. 
 
 ### 3.2 The Importance of Feature Ranking and Selection
 
-A core innovation of our methodology is the integration of correlation-based feature selection prior to modeling. We strictly demonstrated through our Nested LOO analysis that utilizing the entire 384-dimensional DINO vector results in substantial performance degradation for all evaluated methods (NNLS dropping from 21.81% to 30.04% RMSE; Ridge from 24.60% to 31.91% RMSE). 
-
-By ranking features primarily on their absolute Pearson correlation with the small set of ground-truth biomass labels and isolating a "sweet spot" (e.g., the top 90 features for NNLS), we effectively prune noisy, irrelevant feature embeddings out of the high-dimensional space. This computationally cheap filtering step acts as a powerful dimensional regularizer, safeguarding against the curse of dimensionality inherent to extremely small ground-truth datasets.
+The methodology uses correlation-based feature ranking, computed strictly on training data within each fold. On this small site, however, the *number* of features is the sensitive knob: selecting a single feature count by inner cross-validation is high-variance and can overfit the selection. The robust remedy adopted here is to **average NNLS predictions over the whole feature-count grid** (ensemble-over-K) rather than committing to one count — this removes the selection variance and, together with L2-regularized convex reconstruction, is what makes NNLS the top performer at n = 25 (see `methodology_and_results.md`, §2.7 and §3.1). Correlation ranking still provides a cheap, interpretable ordering of the DINO dimensions, but on this dataset its main value is in defining the grid that the ensemble averages over.
 
 ### 3.3 Explaining the Success of NNLS in the Pipeline
 
@@ -227,13 +232,13 @@ This stands in stark contrast to XGBoost, which persistently overfit the 24-samp
 
 ### 3.4 Comparison with Literature: Hand-Crafted Features Are Insufficient
 
-To rigorously benchmark our framework, we implemented five established approaches from the remote sensing literature that rely on hand-crafted features — GLCM texture measures, RGB vegetation indices, and spectral band statistics — totaling 97 features per patch. Under the identical Nested LOO protocol ($n=25$), **none of the literature methods matched the performance of the proposed pipeline**:
+To benchmark our framework we implemented established hand-crafted-feature approaches — GLCM texture measures, RGB vegetation indices, and spectral band statistics (97 features per patch) — and evaluated them under the **identical** leak-free nested-LOO protocol ($n=25$):
 
-- The best literature method (Gradient Boosting, %RMSE = 31.46%) was **44% worse** than DINO + NNLS (21.81%).
-- While GBT and RF achieved reasonable R² values (0.874 and 0.838), their prediction error (%RMSE) remains substantially higher.
-- More complex approaches (Stacking, XGBoost, Stepwise) severely overfit, with %RMSE > 48%.
+- DINO + NNLS (29.93%, R² 0.886) is the best method, but only **narrowly** ahead of GLCM Random Forest (31.12%, 0.876) and Gradient Boosting (31.91%, 0.870).
+- Tree ensembles on GLCM features are genuinely competitive on this small, structurally simple site.
+- Linear/boosted GLCM variants (Ridge, XGBoost) do lag (%RMSE > 47%).
 
-This gap reveals a fundamental limitation of traditional hand-crafted features for small-dataset biomass estimation. GLCM texture and simple vegetation indices capture only low-level spatial statistics, while DINO's self-supervised training on millions of natural images produces semantically rich representations that encode hierarchical structural patterns — crown morphology, canopy layering, shadow geometry — which are far more discriminative for biophysical parameter retrieval.
+The honest conclusion for Pakistan is that DINO features provide a *modest* edge over strong hand-crafted baselines — not the decisive gap claimed in the original (leaky) draft, where the literature methods were reported as far worse due to a flawed evaluation. The clearer advantage of self-supervised features appears on the larger, more heterogeneous German site.
 
 ### 3.5 Broad Implications and Practical Scalability
 
@@ -247,4 +252,4 @@ Several limitations should be noted:
 
 ### 3.7 Summary
 
-This study proposes and rigorously validates a novel mechanism for forest biomass estimation on highly constrained datasets. Utilizing a pretrained DINO feature extractor combined with rigid feature ranking and NNLS regression, we demonstrated precise mapping capabilities (%RMSE = 21.81%, R² = 0.939) using only RGB imagery — outperforming five established literature methods by a wide margin (best competitor: 31.46% RMSE). By systematically isolating the top diagnostic features and relying on non-negative convex geometry rather than highly parameterized boosting ensembles, this lightweight framework exhibits high resistance to overfitting and offers a compelling new blueprint for scalable precision forestry.
+This study validates a lightweight mechanism for forest biomass estimation on highly constrained datasets. Using a pretrained DINO feature extractor with regularized NNLS regression (L2 reconstruction, convex weights, ensemble-over-K), we achieved %RMSE = 29.93%, R² = 0.886 using only RGB imagery under a strict leak-free nested-LOO protocol — a narrow win over strong tuned GLCM baselines (best competitor: 31.12% RMSE). By relying on non-negative convex geometry rather than heavily parameterized boosting ensembles, the framework is robust to overfitting at n = 25 and offers a practical blueprint for precision forestry, while the honest cross-site evidence (clearer on the German data) is what supports the value of self-supervised RGB features.
