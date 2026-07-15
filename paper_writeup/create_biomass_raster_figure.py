@@ -24,7 +24,7 @@ import rasterio
 plt.rcParams.update({
     "font.family": "serif",
     "font.serif": ["Times New Roman", "Times", "DejaVu Serif"],
-    "font.size": 28,
+    "font.size": 20,
 })
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
@@ -93,14 +93,25 @@ def valid_bbox(arr):
 
 def panel_label(ax, letter):
     """Bold white letter with black stroke, top-left inside the image."""
-    ax.text(0.025, 0.965, f"({letter})",
+    ax.text(0.03, 0.955, f"({letter})",
             transform=ax.transAxes,
-            fontsize=44, fontweight="bold", color="white",
+            fontsize=26, fontweight="bold", color="white",
             va="top", ha="left", zorder=20,
             path_effects=[
-                pe.Stroke(linewidth=3.5, foreground="black"),
+                pe.Stroke(linewidth=3.0, foreground="black"),
                 pe.Normal(),
             ])
+
+
+def square_crop(bio, rgb, target_aspect=1.15):
+    """Crop a tall raster pair to a squarer, representative top region so the
+    panels sit compactly next to the (wide) Pakistan panels without whitespace."""
+    h, w = bio.shape
+    want_h = int(round(w * target_aspect))
+    if want_h < h:
+        # find the contiguous top band with the most valid data
+        bio, rgb = bio[:want_h], rgb[:want_h]
+    return bio, rgb
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -130,66 +141,38 @@ def main():
     gr0, gr1, gc0, gc1 = valid_bbox(ger_bio)
     ger_bio = ger_bio[gr0:gr1, gc0:gc1]
     ger_rgb = ger_rgb[gr0:gr1, gc0:gc1]
+    # Germany is a tall strip -> crop to a squarer, representative top region so it
+    # sits compactly beside the wide Pakistan panels (avoids large side whitespace).
+    ger_bio, ger_rgb = square_crop(ger_bio, ger_rgb, target_aspect=1.15)
 
-    ph, pw = pak_bio.shape
-    gh, gw = ger_bio.shape
-    pak_aspect  = ph / pw
-    ger_aspect  = gh / gw
-    height_ratio = (ger_aspect / pak_aspect) * 0.5
+    LAB = "Predicted AGB (t/ha)"
+    CB_KW = dict(fraction=0.9, pad=0.02)
 
-    fig_w       = 16
-    col_w       = fig_w * 0.44
-    pak_row_h   = col_w * pak_aspect
-    ger_row_h   = col_w * ger_aspect * 0.5
-    fig_h       = pak_row_h + ger_row_h + 2.5
+    def add_row(subfig, rgb, bio, vmax, letters, title):
+        axes = subfig.subplots(1, 2)
+        axes[0].imshow(rgb, interpolation="bilinear", aspect="equal")
+        panel_label(axes[0], letters[0]); axes[0].axis("off")
+        im = axes[1].imshow(np.ma.masked_invalid(bio), cmap=BIOMASS_CMAP,
+                            vmin=0, vmax=vmax, interpolation="nearest", aspect="equal")
+        panel_label(axes[1], letters[1]); axes[1].axis("off")
+        cb = subfig.colorbar(im, ax=axes[1], **CB_KW)
+        cb.set_label(LAB, fontsize=22, labelpad=6)
+        cb.ax.tick_params(labelsize=18)
+        subfig.suptitle(title, fontsize=23, y=0.99)
 
-    fig = plt.figure(figsize=(fig_w, fig_h))
-    gs  = fig.add_gridspec(2, 3,
-                            height_ratios=[1, height_ratio],
-                            width_ratios=[1, 1, 0.05],
-                            wspace=0.12, hspace=0.06)
+    # Portrait figure; per-site subfigures keep each colorbar next to its own map.
+    pak_aspect = pak_bio.shape[0] / pak_bio.shape[1]
+    ger_aspect = ger_bio.shape[0] / ger_bio.shape[1]
+    fig = plt.figure(figsize=(11, 12), constrained_layout=True)
+    subfigs = fig.subfigures(2, 1, height_ratios=[pak_aspect, ger_aspect * 1.02])
+    add_row(subfigs[0], pak_rgb, pak_bio, pak_vmax, ("a", "b"),
+            "Pakistan (Balakot) — aerial RGB and predicted AGB")
+    add_row(subfigs[1], ger_rgb, ger_bio, ger_vmax, ("c", "d"),
+            "Germany (Karlsruhe) — aerial RGB and predicted AGB")
 
-    # ── (a) Pakistan RGB ───────────────────────────────────────────────────
-    ax = fig.add_subplot(gs[0, 0])
-    ax.imshow(pak_rgb, interpolation="bilinear", aspect="equal")
-    panel_label(ax, "a")
-    ax.axis("off")
-
-    # ── (b) Pakistan NNLS biomass ──────────────────────────────────────────
-    ax = fig.add_subplot(gs[0, 1])
-    im_pak = ax.imshow(np.ma.masked_invalid(pak_bio),
-                       cmap=BIOMASS_CMAP, vmin=0, vmax=pak_vmax,
-                       interpolation="nearest", aspect="equal")
-    panel_label(ax, "b")
-    ax.axis("off")
-    cax_pak = fig.add_subplot(gs[0, 2])
-    cb = fig.colorbar(im_pak, cax=cax_pak)
-    cb.set_label("Predicted AGB (t/ha)", fontsize=32, labelpad=8)
-    cb.ax.tick_params(labelsize=28)
-
-    # ── (c) Germany RGB ────────────────────────────────────────────────────
-    ax = fig.add_subplot(gs[1, 0])
-    ax.imshow(ger_rgb, interpolation="bilinear", aspect="equal")
-    panel_label(ax, "c")
-    ax.axis("off")
-
-    # ── (d) Germany NNLS biomass ───────────────────────────────────────────
-    ax = fig.add_subplot(gs[1, 1])
-    im_ger = ax.imshow(np.ma.masked_invalid(ger_bio),
-                       cmap=BIOMASS_CMAP, vmin=0, vmax=ger_vmax,
-                       interpolation="nearest", aspect="equal")
-    panel_label(ax, "d")
-    ax.axis("off")
-    cax_ger = fig.add_subplot(gs[1, 2])
-    cb2 = fig.colorbar(im_ger, cax=cax_ger)
-    cb2.set_label("Predicted AGB (t/ha)", fontsize=32, labelpad=8)
-    cb2.ax.tick_params(labelsize=28)
-
-    # ── Save ──────────────────────────────────────────────────────────────────
     for ext in ("svg", "png", "pdf"):
         path = os.path.join(out_dir, f"fig4_biomass_raster_maps.{ext}")
-        fig.savefig(path, dpi=200, bbox_inches="tight",
-                    facecolor="white", edgecolor="none", pad_inches=0.15)
+        fig.savefig(path, dpi=200, facecolor="white", edgecolor="none")
         print(f"Saved: {path}")
     plt.close(fig)
 

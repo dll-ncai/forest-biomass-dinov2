@@ -1,0 +1,5 @@
+SELECT   apriori7 [20,40,60,100,150,200,260] -> %RMSE=29.68 R2=0.888
+SELECT   apriori6 [20,40,80,120,180,240]    -> %RMSE=32.83 R2=0.862
+ENSEMBLE ensK full[10..360]                 -> %RMSE=29.93 R2=0.886
+ENSEMBLE ensK coarse8                       -> %RMSE=29.27 R2=0.891
+DIAG2_DONE

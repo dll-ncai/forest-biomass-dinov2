@@ -1,0 +1,21 @@
+[11:36:40] START corrected pipeline (rich hyper-parameter tuning)
+[11:36:40] python: /home/niche-6/anaconda3/envs/biomass/bin/python  |  cores: 4
+[11:36:40] STEP 1: main pipeline (pakistan/german x dino/resnet50) in parallel
+exit=0 german/resnet50
+exit=0 german/dino
+exit=0 pakistan/dino
+exit=0 pakistan/resnet50
+[11:43:16] STEP 1 done
+[11:43:16] STEP 2: german ablations + literature baselines
+exit=0 literature
+exit=0 ablations
+[11:47:25] STEP 2 done
+[11:47:25] STEP 3: robustness (20 splits, light grid)
+exit=0 robustness
+[12:02:05] STEP 3 done
+[12:02:05] STEP 4: figures
+exit=0 figures
+[12:02:07] STEP 4 done
+[12:02:07] STEP 5: results summary
+exit=0 summary
+[12:02:07] ALL DONE
