@@ -1,5 +1,0 @@
-[german/resnet50] (113, 2051) from /home/niche-6/assad/forest-biomass-dinov2/datasets_corrected/german_resnet50.csv
-  -> /home/niche-6/assad/forest-biomass-dinov2/results_corrected/german_resnet50.json
-   nnls  : combined %RMSE=31.97  R2=0.45
-   ridge : combined %RMSE=24.13  R2=0.69
-   xgb   : combined %RMSE=29.86  R2=0.52

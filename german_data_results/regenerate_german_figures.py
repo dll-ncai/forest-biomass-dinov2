@@ -117,7 +117,7 @@ for ax, ylabel, letter in [
     subplot_label(ax, letter)
 
 for ext in ("svg", "png"):
-    for dest in [OUT_DIR, PAPER_DIR]:
+    for dest in [d for d in (OUT_DIR, PAPER_DIR) if os.path.isdir(d)]:
         stem = "german_performance_vs_features"
         out = os.path.join(dest, f"{stem}.{ext}")
         fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")
@@ -188,7 +188,7 @@ for ax, method, letter in zip(axes, ["nnls", "linear", "xgb"], ["a", "b", "c"]):
     subplot_label(ax, letter)
 
 for ext in ("svg", "png"):
-    for dest in [OUT_DIR, PAPER_DIR]:
+    for dest in [d for d in (OUT_DIR, PAPER_DIR) if os.path.isdir(d)]:
         stem = "german_best_scatter_plots"
         out = os.path.join(dest, f"{stem}.{ext}")
         fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")

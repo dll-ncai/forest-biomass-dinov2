@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Germany robustness: repeat the corrected, leak-free evaluation over MANY stratified
+Germany robustness: repeat the full evaluation over MANY stratified
 85/15 splits (default 20 seeds) so conclusions don't rest on one noisy split.
 
 For each seed and each feature set we evaluate, all train-only:
@@ -18,7 +18,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import KFold
 import xgboost as xgb
-import corrected_pipeline as cp
+import pipeline as cp
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DEEP_METHODS = ("nnls", "ridge", "xgb")
@@ -115,7 +115,7 @@ def eval_literature(Xtr, ytr, Xte, yte):
 
 
 def load(name):
-    df = pd.read_csv(os.path.join(ROOT, "datasets_corrected", f"german_{name}.csv"))
+    df = pd.read_csv(os.path.join(ROOT, "datasets", f"german_{name}.csv"))
     fc = [c for c in df.columns if c.startswith("feature_")]
     return df[fc].values.astype(np.float32), df["label"].values.astype(np.float32)
 
@@ -161,7 +161,7 @@ def main():
             "prmse_mean": float(a[:, 0].mean()), "prmse_std": float(a[:, 0].std()),
             "r2_mean": float(a[:, 1].mean()), "r2_std": float(a[:, 1].std()),
             "n_seeds": len(vals)}
-    outp = os.path.join(ROOT, "results_corrected", "robustness_german.json")
+    outp = os.path.join(ROOT, "results", "robustness_german.json")
     json.dump({"seeds": args.seeds, "summary": summary}, open(outp, "w"), indent=2)
     print("=== GERMANY ROBUSTNESS (mean±std over %d splits) ===" % args.seeds)
     for k in sorted(summary):

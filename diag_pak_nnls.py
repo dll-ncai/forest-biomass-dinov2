@@ -1,5 +1,5 @@
-import numpy as np, pandas as pd, math, json, corrected_pipeline as cp
-df=pd.read_csv("datasets_corrected/pakistan_dino.csv")
+import numpy as np, pandas as pd, math, json, pipeline as cp
+df=pd.read_csv("datasets/pakistan_dino.csv")
 fc=[c for c in df.columns if c.startswith("feature_")]
 X=df[fc].values.astype(np.float32); y=df["label"].values.astype(np.float32)
 y=(y/1000.0)*(10000.0/(math.pi*17.5**2)); n=len(X)
@@ -28,5 +28,5 @@ for name,FC in FCs.items():
     pr,r2,Ks=nested(FC)
     out[name]={"prmse":pr,"r2":r2,"Kspread":[min(Ks),max(Ks)]}
     print(f"{name:32s} -> %RMSE={pr:5.2f} R2={r2:.3f}  K in [{min(Ks)},{max(Ks)}]",flush=True)
-json.dump(out,open("results_corrected/logs/diag_pak_nnls.json","w"),indent=2)
+json.dump(out,open("results/logs/diag_pak_nnls.json","w"),indent=2)
 print("DIAG_DONE")

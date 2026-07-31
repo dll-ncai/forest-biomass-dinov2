@@ -19,7 +19,7 @@ This folder contains the complete dataset for cluster-based biomass prediction, 
 ## Files in This Folder
 
 ### 1. `dino_features_with_labels_and_split.csv`
-- **Description**: Raw DINO v2 features (384 dimensions)
+- **Description**: Raw DINO features (384 dimensions)
 - **Format**: CSV with columns: `feature_0` through `feature_383`, `label`, `split`
 - **Use**: For experiments with raw DINO features
 
@@ -59,7 +59,7 @@ This folder contains the complete dataset for cluster-based biomass prediction, 
 1. **Clustering**: 303 plots → 101 clusters using spatial K-means
 2. **Crop Extraction**: 224x224 image crops centered on cluster centroids
 3. **Biomass Calculation**: Mean biomass of plots in each cluster
-4. **Feature Extraction**: DINO v2 Small model (384 features)
+4. **Feature Extraction**: DINO Small model (384 features)
 5. **PCA Reduction**: 384 → 50 dimensions (98.11% variance preserved)
 
 ## Usage Example
@@ -90,7 +90,7 @@ print(f"Test: {len(X_test)} samples, {X_test.shape[1]} features")
 ## Key Features
 
 ✅ **Proper Cluster Aggregation**: Mean of ~3 plots per cluster (reduces noise)  
-✅ **224x224 Crops**: Exact size required for DINO v2 model  
+✅ **224x224 Crops**: Exact size required for DINO model  
 ✅ **DINO Features**: Pre-trained visual features (384 dim)  
 ✅ **PCA Optimization**: 50 dimensions preserve 98.11% variance  
 ✅ **Stratified Split**: Train/test split maintains biomass distribution  

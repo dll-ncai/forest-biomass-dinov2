@@ -4,15 +4,13 @@ Download the large aerial source GeoTIFFs that are not tracked in git.
 
 The bundle contains the two high-resolution aerial RGB rasters (Balakot, Pakistan
 and Karlsruhe, Germany). They are hosted on Google Drive and are needed only for:
+  * generating the wall-to-wall biomass raster maps (make_biomass_rasters.py)
   * rebuilding the German dataset from scratch
     (german_data_results/build_complete_pipeline.py, which reads german data/karlsruhe.tif)
-  * regenerating the aerial panels of Figure 4
-    (paper_writeup/create_biomass_raster_figure.py)
 
 All committed CSVs/JSONs are already sufficient to reproduce every numeric result
-and every figure that is built from the CSVs. The predicted-biomass output rasters
-are not distributed (regenerable outputs); the rendered Figure 4 is committed under
-paper_writeup/, so you only need this bundle for the two scripts above.
+and every results figure. The predicted-biomass output rasters are not distributed
+(they are regenerable outputs), so you only need this bundle for the two steps above.
 
 Usage
 -----
@@ -32,7 +30,7 @@ import sys
 import zipfile
 
 # ── Google Drive file id for the data bundle (a single .zip) ──────────────────
-# Set after uploading forest-biomass-dinov2-data.zip to Drive (share: "Anyone
+# Set after uploading forest-biomass-dino-data.zip to Drive (share: "Anyone
 # with the link"). Paste ONLY the id portion of the share URL here, e.g. for
 #   https://drive.google.com/file/d/1AbC.../view?usp=sharing
 # the id is  1AbC...

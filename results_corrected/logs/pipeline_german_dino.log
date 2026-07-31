@@ -1,5 +1,0 @@
-[german/dino] (113, 387) from /home/niche-6/assad/forest-biomass-dinov2/datasets_corrected/german_dino.csv
-  -> /home/niche-6/assad/forest-biomass-dinov2/results_corrected/german_dino.json
-   nnls  : combined %RMSE=17.40  R2=0.84
-   ridge : combined %RMSE=23.83  R2=0.69
-   xgb   : combined %RMSE=26.27  R2=0.63

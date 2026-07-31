@@ -145,7 +145,7 @@ for ext in ("svg", "png"):
     print(f"Saved: {out}")
 
 paper_dir = os.path.join(SCRIPT_DIR, "..", "paper_writeup")
-for ext in ("svg", "png"):
+for ext in ("svg", "png") if os.path.isdir(paper_dir) else ():
     out = os.path.join(paper_dir, f"paper_methods_nested_loo_comparison.{ext}")
     fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")
     print(f"Saved: {out}")

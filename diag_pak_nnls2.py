@@ -1,5 +1,5 @@
-import numpy as np, pandas as pd, math, json, corrected_pipeline as cp
-df=pd.read_csv("datasets_corrected/pakistan_dino.csv")
+import numpy as np, pandas as pd, math, json, pipeline as cp
+df=pd.read_csv("datasets/pakistan_dino.csv")
 fc=[c for c in df.columns if c.startswith("feature_")]
 X=df[fc].values.astype(np.float32); y=df["label"].values.astype(np.float32)
 y=(y/1000.0)*(10000.0/(math.pi*17.5**2)); n=len(X)

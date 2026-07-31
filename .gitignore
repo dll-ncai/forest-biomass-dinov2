@@ -6,7 +6,7 @@
 biomass_rasters/
 
 # Data bundle downloaded by download_data.py (extracted in place, then removed)
-forest-biomass-dinov2-data.zip
+forest-biomass-dino-data.zip
 
 # Python
 __pycache__/
@@ -25,4 +25,14 @@ venv/
 _original_backup_20260714/
 results_corrected_v1_backup/
 _drive_reference/
-dataset_crops_152/
+
+# Local working notes / agent scratch — not for the public repo
+.claude/
+PROJECT_NOTES.md
+paper_writeup/
+experiment_*.py
+results/experiment_*.json
+results/logs/
+results/.RUN_COMPLETE
+results/.PAK_DONE
+results/.RASTER_GER_DONE

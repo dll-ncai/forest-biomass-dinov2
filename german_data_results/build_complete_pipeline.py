@@ -4,7 +4,7 @@ Complete pipeline for cluster-based biomass prediction:
 1. Group 303 plots into ~101 clusters (mean of ~3 plots per cluster)
 2. Extract 224x224 image crops centered on each cluster
 3. Calculate mean biomass of plots in each cluster
-4. Extract DINO v2 features from crops
+4. Extract DINO features from crops
 5. Apply PCA to preserve maximum information
 6. Save complete dataset in organized folder structure
 """
@@ -38,14 +38,14 @@ except ImportError:
 
 
 def load_dino_v2_small(pretrained: bool = True):
-    """Load DINO v2 Small model (patch16) - uses 224x224 input."""
+    """Load DINO Small model (patch16) - uses 224x224 input."""
     model = timm.create_model('vit_small_patch16_224.dino', pretrained=pretrained, num_classes=0)
     model.eval()
     return model
 
 
 def extract_features(model, image_paths: List[str], batch_size: int = 32) -> np.ndarray:
-    """Extract features using DINO v2, processing in batches."""
+    """Extract features using DINO, processing in batches."""
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     model.to(device)
@@ -377,7 +377,7 @@ def build_complete_pipeline(
     print(f"  Mean plots per cluster: {np.mean([c['n_plots'] for c in cluster_data]):.2f}")
     
     # Step 3: Extract DINO features
-    print(f"\n[Step 3/5] Extracting DINO v2 features...")
+    print(f"\n[Step 3/5] Extracting DINO features...")
     model = load_dino_v2_small(pretrained=True)
     features = extract_features(model, crop_paths, batch_size=32)
     
